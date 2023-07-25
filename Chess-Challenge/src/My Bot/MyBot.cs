@@ -54,7 +54,9 @@ public class MyBot : IChessBot
     public int Evaluate(Board board)
     {
         if (board.IsInCheckmate())
-            return int.MaxValue;
+            return int.MaxValue - 1;
+        if (board.IsDraw())
+            return 0;
         int selfpieceindex = board.IsWhiteToMove ? 0 : 6;
         int enemypieceindex = board.IsWhiteToMove ? 6 : 0;
         PieceList[] pl = board.GetAllPieceLists();
