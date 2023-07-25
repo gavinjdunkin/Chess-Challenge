@@ -1,4 +1,5 @@
 ﻿using ChessChallenge.API;
+using System;
 
 public class MyBot : IChessBot
 {
@@ -25,11 +26,21 @@ public class MyBot : IChessBot
                 bestmove = move;
             }
         }
+        Console.WriteLine(bestmove + " " + bestscore);
+        if (bestmove.Equals(new Move()))
+        {
+            Console.WriteLine(board.GetLegalMoves()[0]);
+            return board.GetLegalMoves()[0];
+        }
         return bestmove;
     }
 
     public int Trace(Board board, int depth)
     {
+        if (board.IsInCheckmate())
+            return 100000 * ((board.IsWhiteToMove==white) ? -1 : 1);
+        if (board.IsDraw())
+            return 0;
         if (depth == 0)
             return Evaluate(board);
         int bestscore = (board.IsWhiteToMove == white) ? int.MinValue : int.MaxValue;
@@ -54,7 +65,7 @@ public class MyBot : IChessBot
     public int Evaluate(Board board)
     {
         if (board.IsInCheckmate())
-            return int.MaxValue - 1;
+            return 100000;
         if (board.IsDraw())
             return 0;
         int selfpieceindex = board.IsWhiteToMove ? 0 : 6;
