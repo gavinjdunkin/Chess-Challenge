@@ -4,6 +4,7 @@ using System.Numerics;
 
 public class MyBot : IChessBot
 {
+    //1.0
     Move bestmoveRoot = Move.NullMove;
 
     // https://www.chessprogramming.org/PeSTO%27s_Evaluation_Function
@@ -68,7 +69,7 @@ public class MyBot : IChessBot
         bool qsearch = depth <= 0, notRoot = ply > 0;
         int best = -30000;
 
-        if (notRoot && board.IsDraw())
+        if (board.IsRepeatedPosition())
             return 0;
 
         TTEntry entry = tt[key % entries];
